@@ -1,0 +1,19 @@
+timestamp	commit	skill	old_score	new_score	status	dimension	note	eval_mode
+2026-05-09T10:00	f001f49	operator-knowledge	-	67.3	baseline	-	初始基线评估	dry_run
+2026-05-09T10:05	1233e8b	operator-knowledge	67.3	70.2	keep	D4:检查点设计	增加显式检查点表，6个暂停点	dry_run
+2026-05-09T10:10	3498c9b	operator-knowledge	70.2	77.9	keep	D5:指令具体性	三大操作LLM行为4步具体化	dry_run
+2026-05-09T10:15	9bf1bee	operator-knowledge	77.9	80.3	keep	D1:Frontmatter	加入中文描述和触发词	dry_run
+2026-05-09T10:20	3b12894	operator-knowledge	80.3	81.3	keep	D6:资源整合	新增项目资源表，显式引用路径	dry_run
+2026-05-09T10:25	b3e7867	operator-knowledge	81.3	84.6	keep	D3:边界条件	异常处理表，6种场景fallback	dry_run
+2026-05-09T10:30	2202dec	operator-knowledge	84.6	88.4	keep	D2:工作流	5步线性工作流置顶	dry_run
+2026-05-09T15:00	ce64149	derive-knowledge	-	87.9	baseline	-	三层拆分后重新基线	full_test
+2026-05-09T15:00	ce64149	capture-knowledge	-	75.6	baseline	-	三层拆分后重新基线	full_test
+2026-05-09T15:00	ce64149	distill-knowledge	-	73.9	baseline	-	三层拆分后重新基线	full_test
+2026-05-09T15:10	907ac11	distill-knowledge	73.9	76.0	keep	D4:检查点设计	新增2个显式暂停点	full_test
+2026-05-09T15:15	01c3321	distill-knowledge	76.0	78.0	keep	D3:边界条件	+6异常场景	full_test
+2026-05-09T15:15	01c3321	distill-knowledge	78.0	79.5	keep	D5:指令具体性	+输出实例	full_test
+2026-05-09T15:20	7c70afa	capture-knowledge	75.6	77.0	keep	D4:检查点设计	新增2个显式暂停点	full_test
+2026-05-09T15:25	6ca5293	capture-knowledge	77.0	78.0	keep	D3:边界条件	异常场景4→8	full_test
+2026-05-09T15:30	6812a2d	capture-knowledge	78.0	78.8	keep	D1:Frontmatter	+English keywords	full_test
+2026-05-09T15:35	a2f4e3a	derive-knowledge	87.9	88.4	keep	D6:资源整合	新增项目资源表	full_test
+2026-05-09T15:40	57bc31a	derive-knowledge	88.4	89.2	keep	D1:Frontmatter	+English keywords	full_test

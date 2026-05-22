@@ -1,0 +1,6 @@
+[
+  {"id": 1, "prompt": "我今天写了一篇日记，帮我存下来：'早上跑步时突然想通了，我之所以总是抗拒做计划，可能是因为做计划本身让我觉得已经完成了，于是就没动力真去做了'", "expected": "写入 raw/2026-05-09-抗拒做计划.md；raw 只含原文，不写 YAML、不加摘要；标题、来源、tags 写到 overlays/raw-index.md"},
+  {"id": 2, "prompt": "之前存过几篇关于注意力、番茄工作法的日记，帮我找出来", "expected": "在 raw/ 全文或标签搜索，列出匹配文件及摘要"},
+  {"id": 3, "prompt": "这篇 raw 不想看了，帮我删掉吧", "expected": "不物理删除、不改 raw；在 overlays/raw-index.md 或 raw-changes.md 标记 archived，并轻量说明原文保留"},
+  {"id": 4, "prompt": "帮我看看raw里所有日记，总结一下我最近的心理状态", "expected": "不自行总结（不是distill），只提供检索结果或建议进入 distill；避免大表格和复杂术语"}
+]
