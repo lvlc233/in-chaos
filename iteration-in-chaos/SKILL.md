@@ -5,21 +5,27 @@
 **核心产出：** `techs/` — 可复用的迭代方案（检查方法、设计模式、执行流程）。  
 **输入机制：** 从用户反馈中感知模式 → 记日志 → 浮现结晶为 techs/。  
 **编排层：** `preferences/` — 用户在多维度上选择的技术管线（什么维度用什么技术、什么顺序）。  
-**职责边界：** 提供和管理迭代方案。发现问题（审核）和验证质量（评测）是本 skill 流程中的独立阶段，不做额外跨 skill 依赖。
+**职责边界：** 提供和管理迭代方案。识别问题 → 匹配技术去修 → 验证修复效果，三步闭环。每一步的具体方法由对应的 tech 定义。
 
 ## 状态机
 
-识别当前状态，执行对应动作，然后按 transition 进入后续状态。任何状态都是合法入口点。**多状态同时触发时，按本表从上到下的优先级执行。**
+识别当前状态，执行对应动作，然后按 transition 进入后续状态。入口级状态可直接从用户指令进入，内部级状态依赖前置状态传入上下文。**多状态同时触发时，按本表从上到下的优先级执行。**
 
 | 状态 | 触发条件 | 执行动作 | → 后续状态 |
 |------|----------|----------|------------|
-| **new-task** | 开始新开发/迭代任务 | ①识别当前产出物涉及的维度 ②扫 `preferences/index.md` 匹配各维度管线 ③加载管线，准备执行 ④检查是否有 pending 日志可结晶 **⑤若迭代对象是 iteration-engine 自身，额外加载自身 techs/ 做 dogfooding 检查（用自己迭代自己）** | → applying-tech（执行管线第一项技术） |
+| **new-task** | 开始新开发/迭代任务 | ①识别当前产出物涉及的维度 ②扫 `preferences/index.md` 匹配各维度管线 ③加载管线，准备执行 ④检查是否有 pending 日志可结晶 **⑤若迭代对象是自身，额外加载自身 techs/ 做 dogfooding 检查（用自己迭代自己）** | → applying-tech（执行管线第一项技术） |
 | **feedback-received** | 用户给出纠正/原则/方向 | 检测是否触发原则信号（原则陈述/同类纠正3+/引用外部标准/覆盖方案/强调整体方向）。触发 → 写 `log/{date}-{关键词}.md`，`extracted_principles` 必填。不触发（单次命名/一次性修改/闲聊风格）→ 不记 | → new-task（反馈即要求改，改完继续走管线） |
 | **accumulated** | 用户说"整理反馈" / 同方向日志 ≥2 条 / new-task 第④步检测到 pending 日志 | 扫 `log/`，识别同方向日志 → 提议结晶方案：结为 tech 还是 preference？→ 等待用户确认 | → crystallizing（确认）/ → 结束（拒绝） |
 | **crystallizing** | 用户确认结晶提议 / 主动要求"记下来" | tech: 创建 `techs/{name}.md`，status: draft，填写边界/测试案例/效果对比。preference: 创建 `preferences/{dimension}.md`，管线指向 techs，证据指回 log。更新日志 crystallized_to。**结晶完成后立即应用到当前迭代对象** | → new-task（重载管线，新技术将进入验证闭环） |
-| **applying-tech** | 管线中执行某项技术 | 执行技术流程 → 对照验收标准检查 → 记录生效结果 | → tech-failed（验收不通过）/ → applying-tech（继续下一项技术）/ → new-task（管线完成，回第④步检查 pending 日志） |
-| **tech-failed** | 技术验收没过 | 分析根因：技术本身不够好 → 更新验收标准/盲区；管线编排问题 → 调整偏好管线，旧版进 `archive/`。**失败记录比成功更值钱** | → applying-tech（修正后重试同一技术） |
+| **applying-tech** | 管线中执行第 i/N 项技术 | 执行技术流程 → 对照验收标准检查 → 记录生效结果 | → tech-failed（验收不通过）/ → applying-tech（继续下一项）/ → new-task（管线完成，回第④步检查 pending 日志） |
+| **tech-failed** | 技术验收没过 | ①分析根因（技术本身不行 vs 编排问题）②修改对应文件：技术不行 → 更新验收标准/盲区，若稳定反优化则标记 rejected 归档；编排问题 → 调整偏好管线。**失败记录比成功更值钱** | → applying-tech（修正后重试）/ → tech-rejected（结构性失败，技术本身不可用） |
+| **tech-rejected** | 技术在实测中稳定不出正效果 / 反优化 | 归档到 `archive/`，从所有偏好管线中移除，更新日志 crystallized_to | → accumulated（浮现替代方案）/ → new-task（无需替代，继续当前任务） |
 | **revalidate-preference** | 用户问"这个偏好还成立吗" | 查生效记录：持续通过 → 确认有效；模式性失败 → 提议调整或归档 | → accumulated（失效，需替代方案）/ → 结束（有效，不需变更） |
+
+> **入口级状态**（可直接从用户指令进入）：new-task / feedback-received / accumulated / revalidate-preference  
+> **内部级状态**（依赖前置状态传入上下文）：crystallizing / applying-tech / tech-failed / tech-rejected  
+> **→ 结束**：回到空闲状态，等待下一次用户触发。阶段性的"不做了"或"不需要改"是合法出口，不是 bug。
+> 若从内部级状态误入（缺少前置上下文），回到 new-task 重载管线再进入。
 
 ## 核心规则
 
@@ -37,7 +43,11 @@
 | 开始新任务 / "迭代 X" | → new-task | 先加载管线，再查 pending 日志 |
 | "这个偏好还成立吗" | → revalidate-preference | |
 | "把这个记下来"（主动要求） | → crystallizing | 跳过浮现阈值和确认 |
+| "看一下当前管线" | → 加载 `preferences/index.md` | 列出各维度管线结构 |
+| "有哪些反馈还没整理" | → 扫 `log/` 中 `crystallized_to: pending` | |
+| "评估一下 X" | → 加载对应 tech 文件 | 独立技术评估，不进管线 |
 | 外部技术/Skill 发现可用方法 | → 引入 `techs/`，标注 `status: pending-review`，待用户审核 | |
+| "有哪些技术被 reject 了" | → 扫 `archive/` | |
 
 ## 外部技术引入
 

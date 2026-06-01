@@ -34,4 +34,4 @@ user, log/2026-05-29-identity-is-iteration-schemes.md §2
 | 日期 | 项目 | 通过? | 备注 |
 |------|------|------|------|
 | 2026-05-29 | iteration-engine | 通过 | 重写 SKILL.md 时明确职责边界声明 |
-| 2026-05-29 | iteration-engine | 通过 | 第二轮：增加协作协议描述（审核 skill 标记问题 → iteration-engine 匹配方案去修） |
+| 2026-06-01 | iteration-in-chaos | 通过 | 第三轮：消歧义——"审核/评测在本 skill 流程中"改为"识别问题→匹配技术修→验证效果，三步闭环均由 tech 定义"。去掉跨 skill 依赖暗示 |

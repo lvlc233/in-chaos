@@ -21,8 +21,8 @@
 ```markdown
 | dimension | 管线 | 适用上下文 |
 |-----------|------|-----------|
-| error-handling | api-error-classification → structured-error-logging | API 调用相关代码 |
-| skill-design | state-machine-check → decision-framework-check | 编写 skill 时 |
+| skill-design | state-machine-check → responsibility-boundary-check | 编写 skill 时 |
+| (其他维度) | 管线由实际存在的 techs 构成 | |
 ```
 
 匹配规则：当前任务涉及哪个 dimension，就加载对应管线。一个任务可匹配多个 dimension。

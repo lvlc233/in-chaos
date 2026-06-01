@@ -30,4 +30,4 @@ user, log/2026-05-29-state-driven-execution.md §1
 | 日期 | 项目 | 通过? | 备注 |
 |------|------|------|------|
 | 2026-05-29 | iteration-engine | 通过 | 重写 SKILL.md 为状态机，线性叙事→状态表 |
-| 2026-05-29 | iteration-engine | 通过 | 第二轮：增加 transitions 列 + 多状态并发规则；验证了"编辑过滤器"效应——写不进状态表的内容自动归入 rules/references |
+| 2026-06-01 | iteration-in-chaos | 通过 | 第三轮：去掉"任何状态都是合法入口点"声明，新增入口级/内部级分类 + tech-rejected 状态 + → 结束定义

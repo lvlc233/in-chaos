@@ -16,5 +16,15 @@
 ## tags: [...]
 ## crystallized_to: pending
 ```
+crystallized_to 格式：
+- pending — 尚未结晶
+- 已结晶（单条）: `techs/state-machine-check.md` 或 `preferences/skill-design.md`
+- 已结晶（多条）: 
+  ```
+  crystallized_to:
+  - techs/state-machine-check.md
+  - SKILL.md 规则3
+  ```
+```
 
 `extracted_principles` 不能为空——只记事件不提取原则的日志没有复用价值。
