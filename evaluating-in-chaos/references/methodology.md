@@ -14,6 +14,7 @@
 
 - **测**:agent 读 skill 后的行动计划 / 真实行为是否符合预设 assertion(字段 / 分支 / 契约 / 早 fail)。
 - **跑**:复用 skill-creator——`with_skill` / `without_skill` subagent + grader 判 `expected_output`;**多次跑取 mean/stddev**(抗随机)。without 是 baseline,证明 skill 确实改变了行为。
+- **若 skill-creator 不可用**:退化为手工 assertion checklist + 多次跑取 pairwise diff。
 - **标准**:每个用例先写 expected assertion 清单(= 先有标准后测)。
 - **⚠️ 下游契约**:`expected_output` 必须 **cross-ref 被测 skill 的真实契约**,别拷一份;**被测 skill 改了字段/流程,expected 要同步翻面**,否则测的是过时行为(= reviewing-skills 维度 6「测试 vs 被测漂移」)。
 
@@ -26,6 +27,8 @@
 ### ① 状态契约(每状态定义)
 
 | 入口条件 | 输入(读哪些落盘产物) | 产出 + 内容检查 | 出口 / 切换条件 |
+|----------|----------------------|-----------------|-------------------|
+| S_n 示例: 用户确认了初筛结果 | 读 `workspace/screening_result.json` | 产出 `analysis_report.md`; 检查: 引用格式完整、结论有证据锚点 | 写完 report 后切换至 S_{n+1} |
 
 ### ② mock 单状态测
 
@@ -54,11 +57,12 @@
 
 ### L3a 客观对标(对照参照物,agent 能判)
 - 维度 = 跟目标参照物**可锚定**的对比维(像不像)。
+- **维度推导方法**:从被测 skill 的目标产出反推——视频→色调/节奏/主体/流畅度;文案→语域/结构/信息密度;代码→风格/failure-mode覆盖/API surface。
 - 每维打分 + **证据**(具体帧 / 片段 / 引文)。失败必须指到证据 + 哪维偏。
 
 ### L3b 纯主观审美(降为可操作)
 - **艺考式 rubric**:维度 + **1-5 评分锚点**(5/3/1 各长什么样)。锚点让不同 agent / 不同次可比。
-- **多 agent 投票**:N 个独立打分 → 均值 + 方差。方差大 = 主观争议 → 标记。
+- **多 agent 投票**:N ≥ 3,不同 model 实例独立打分 → 均值 + 方差。方差 > 1.5 (on 1-5 scale) 或偏离校准 > 1 标「需人类裁决」。
 - **人类校准点**:抽样本人类按同 rubric 打分,算系统性偏移。**样本少时标"方向性参考",别假装统计校准**。
 - **诚实声明**:agent 审美分是近似;方差大 / 偏离校准的标「**需人类裁决**」;**禁止无锚点"我觉得不错"当结论**。
 
@@ -67,18 +71,20 @@
 ## 方法论总则(横切三层)
 
 1. **先有标准后测**(pass/fail 或 rubric 锚点)。
-2. **记偏离**(正 / 负)+ **归因**(上下文 / 环境 / 模型 / skill),不只 pass/fail;偏离可定位(哪状态 / 输入 / 输出 / 为何)。
+2. **记偏离**(正 / 负)+ **归因**(上下文 / 环境 / 模型 / skill),不只 pass/fail;三层(L1/L2/L3)都记,不只 L2;偏离可定位(哪状态 / 输入 / 输出 / 为何)。
 3. **多次跑抗随机**。
-4. **最小上下文**(每个测试只带所需)。
+4. **最小上下文**:每个测试只带所需——**执行前确认**:被测 state/S_n 的输入是否只来自上游产物 + 该状态指令？无额外 skill body 全文注入。多一个字都算冗余。
 5. **客观、严厉、怀疑驱动**。
 6. **裁判分层别混用**:L1(被测若已细分则 flow/e2e)/ L2 / L3a / L3b 各管各,同一观测量别被两层重复打分。
 
 **偏离记录格式(统一,三层共用)**:
+
+Schema: `test` | `layer` | `verdict` | `expected` | `actual` | `deviation`(null 若无偏离) | 若有偏离:`sign` `where` `input` `output` `why`
+
 ```json
-{"test":"...", "layer":"L1|L2|L3a|L3b", "verdict":"pass|fail",
- "expected":"...", "actual":"...",
- "deviation": null,
- "//when_present": {"sign":"正向|负向","where":"...","input":"...","output":"...","why":"归因:上下文|环境|模型|skill"}}
+{"test":"L2_S5_初筛正产","layer":"L2","verdict":"fail",
+ "expected":"筛选结果含≥3候选","actual":"只有1候选",
+ "deviation":{"sign":"负向","where":"产出筛选粒度","input":"S4全量集(20项)","output":"S5结果(1项)","why":"归因: skill阈值过严"}}
 ```
 
 ---
