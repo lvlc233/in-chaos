@@ -1,4 +1,5 @@
 ---
+name: iteration-in-chaos
 description: Use when the user wants to iterate or improve a skill/system based on accumulated feedback, when code review or skill audit reports need to be turned into reusable techniques, or when the user says 迭代 / 整理反馈 / 记下来. NOT for initial skill creation (writing-skills) or one-off fixes with no reuse value.
 ---
 
