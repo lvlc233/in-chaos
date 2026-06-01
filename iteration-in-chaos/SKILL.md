@@ -1,77 +1,77 @@
 # Iteration Engine
 
-Transform user feedback into a reusable iteration technique system.
+把用户反馈转化为可复用的迭代技术体系。
 
-**Core output:** `techs/` — reusable iteration protocols (inspection methods, design patterns, execution flows).  
-**Input mechanism:** Detect patterns from user feedback → log → surface crystallized entries in `techs/`.  
-**Orchestration layer:** `preferences/` — user-selected technique pipelines across dimensions (which technique per dimension, in what order).  
-**Responsibility boundary:** Provide and manage iteration protocols. Problem detection (auditing) and quality verification (evaluation) are handled by other skills. Collaboration: auditing skill flags issues → iteration-engine matches corresponding iteration techniques to fix them.
+**核心产出：** `techs/` — 可复用的迭代方案（检查方法、设计模式、执行流程）。  
+**输入机制：** 从用户反馈中感知模式 → 记日志 → 浮现结晶为 techs/。  
+**编排层：** `preferences/` — 用户在多维度上选择的技术管线（什么维度用什么技术、什么顺序）。  
+**职责边界：** 提供和管理迭代方案。发现问题（审核）和验证质量（评测）由其他 skill 负责。协作方式：审核 skill 标记问题 → iteration-engine 匹配对应迭代方案去修。
 
-## State Machine
+## 状态机
 
-Identify current state, execute corresponding actions, then follow the transition to the next state. Any state is a valid entry point. **When multiple states trigger simultaneously, execute in top-to-bottom priority order as listed in this table.**
+识别当前状态，执行对应动作，然后按 transition 进入后续状态。任何状态都是合法入口点。**多状态同时触发时，按本表从上到下的优先级执行。**
 
-| State | Trigger Condition | Action | → Next State |
-|-------|-------------------|--------|--------------|
-| **new-task** | Starting a new dev/iteration task | ①Identify the dimensions involved in current artifacts ②Scan `preferences/index.md` to match pipelines per dimension ③Load pipeline, prepare execution ④Check for pending logs ready for crystallization **⑤If the iteration target is iteration-engine itself, additionally load its own techs/ for dogfooding checks (use itself to iterate itself)** | → applying-tech (execute first technique in pipeline) |
-| **feedback-received** | User gives correction/principle/direction | Detect whether a principle signal fires (principle statement / 3+ similar corrections / citing external standard / overriding the approach / emphasizing overall direction). Fires → write `log/{date}-{keyword}.md`, `extracted_principles` required. Doesn't fire (one-off naming / one-time fix / chat-style) → don't log | → new-task (feedback means change, apply change then continue pipeline) |
-| **accumulated** | User says "organize feedback" / ≥2 logs in same direction / new-task step④ detects pending logs | Scan `log/`, identify same-direction logs → propose crystallization plan: crystallize as tech or preference? → wait for user confirmation | → crystallizing (confirmed) / → end (rejected) |
-| **crystallizing** | User confirms crystallization proposal / proactively says "write it down" | tech: create `techs/{name}.md`, status: draft, fill in boundary/test cases/effect comparison. preference: create `preferences/{dimension}.md`, pipeline pointing to techs, evidence back to logs. Update log `crystallized_to`. **Immediately apply newly crystallized items to current iteration target** | → new-task (reload pipeline, new techniques enter verification loop) |
-| **applying-tech** | Executing a technique within the pipeline | Execute technique workflow → check against acceptance criteria → record effectiveness result | → tech-failed (fails acceptance) / → applying-tech (continue next technique) / → new-task (pipeline complete, return to step④ to check pending logs) |
-| **tech-failed** | Technique didn't pass acceptance | Analyze root cause: technique itself insufficient → update acceptance criteria / blind spots; pipeline orchestration issue → adjust preference pipeline, move old version to `archive/`. **Failure records are more valuable than success** | → applying-tech (retry same technique after fix) |
-| **revalidate-preference** | User asks "is this preference still valid?" | Check effectiveness records: consistently passing → confirm valid; pattern failures → propose adjustment or archiving | → accumulated (invalid, needs replacement) / → end (valid, no change needed) |
+| 状态 | 触发条件 | 执行动作 | → 后续状态 |
+|------|----------|----------|------------|
+| **new-task** | 开始新开发/迭代任务 | ①识别当前产出物涉及的维度 ②扫 `preferences/index.md` 匹配各维度管线 ③加载管线，准备执行 ④检查是否有 pending 日志可结晶 **⑤若迭代对象是 iteration-engine 自身，额外加载自身 techs/ 做 dogfooding 检查（用自己迭代自己）** | → applying-tech（执行管线第一项技术） |
+| **feedback-received** | 用户给出纠正/原则/方向 | 检测是否触发原则信号（原则陈述/同类纠正3+/引用外部标准/覆盖方案/强调整体方向）。触发 → 写 `log/{date}-{关键词}.md`，`extracted_principles` 必填。不触发（单次命名/一次性修改/闲聊风格）→ 不记 | → new-task（反馈即要求改，改完继续走管线） |
+| **accumulated** | 用户说"整理反馈" / 同方向日志 ≥2 条 / new-task 第④步检测到 pending 日志 | 扫 `log/`，识别同方向日志 → 提议结晶方案：结为 tech 还是 preference？→ 等待用户确认 | → crystallizing（确认）/ → 结束（拒绝） |
+| **crystallizing** | 用户确认结晶提议 / 主动要求"记下来" | tech: 创建 `techs/{name}.md`，status: draft，填写边界/测试案例/效果对比。preference: 创建 `preferences/{dimension}.md`，管线指向 techs，证据指回 log。更新日志 crystallized_to。**结晶完成后立即应用到当前迭代对象** | → new-task（重载管线，新技术将进入验证闭环） |
+| **applying-tech** | 管线中执行某项技术 | 执行技术流程 → 对照验收标准检查 → 记录生效结果 | → tech-failed（验收不通过）/ → applying-tech（继续下一项技术）/ → new-task（管线完成，回第④步检查 pending 日志） |
+| **tech-failed** | 技术验收没过 | 分析根因：技术本身不够好 → 更新验收标准/盲区；管线编排问题 → 调整偏好管线，旧版进 `archive/`。**失败记录比成功更值钱** | → applying-tech（修正后重试同一技术） |
+| **revalidate-preference** | 用户问"这个偏好还成立吗" | 查生效记录：持续通过 → 确认有效；模式性失败 → 提议调整或归档 | → accumulated（失效，需替代方案）/ → 结束（有效，不需变更） |
 
-## Core Rules
+## 核心规则
 
-1. **Techniques must pass the verification gate before entering a pipeline.** draft → real-world testing → active/rejected (see `references/tech-template.md`). User intuition is a trigger signal, not an exemption.
-2. **Preferences must point back to log evidence.** A preference without evidence is invalid.
-3. **The state machine is an editing filter.** The act of placing content into the state table itself reveals what has execution value vs. what is merely reference material. Content that can't fit into the state table → goes into `references/`.
-4. **Use yourself on yourself (dogfooding).** Use iteration-engine's own workflow to iterate itself. If its own workflow fails in its own context → the workflow needs adjustment.
+1. **技术先过验证门再进管线。** draft → 实测 → active/rejected（详见 `references/tech-template.md`）。用户直觉是触发信号，不是豁免。
+2. **偏好必须指回日志证据。** 没有证据的偏好不成立。
+3. **状态机是编辑过滤器。** 把内容放进状态表的过程本身就暴露了哪些有执行价值、哪些只是参考说明。写不进状态表的内容 → 进 `references/`。
+4. **对自己用自己 (dogfooding)。** 用 iteration-engine 自己的流程迭代自身。自己流程在自己场景下走不通 → 流程需要调整。
 
-## Quick Routing
+## 快速路由
 
-| User says | Target state | Notes |
-|-----------|-------------|-------|
-| Day-to-day correction/guidance | → feedback-received | Apply improvements via new-task immediately after correction |
-| "Organize recent feedback" | → accumulated | |
-| Start new task / "Iterate on X" | → new-task | Load pipeline first, then check pending logs |
-| "Is this preference still valid?" | → revalidate-preference | |
-| "Write this down" (proactive request) | → crystallizing | Skip surfacing threshold and confirmation |
-| External technique/skill found usable method | → import into `techs/`, mark `status: pending-review`, await user review | |
+| 用户说 | 目标状态 | 说明 |
+|--------|----------|------|
+| 日常纠正/引导 | → feedback-received | 纠正后立即走 new-task 应用改进 |
+| "整理一下最近的反馈" | → accumulated | |
+| 开始新任务 / "迭代 X" | → new-task | 先加载管线，再查 pending 日志 |
+| "这个偏好还成立吗" | → revalidate-preference | |
+| "把这个记下来"（主动要求） | → crystallizing | 跳过浮现阈值和确认 |
+| 外部技术/Skill 发现可用方法 | → 引入 `techs/`，标注 `status: pending-review`，待用户审核 | |
 
-## External Technique Import
+## 外部技术引入
 
-1. Place into `techs/`, mark `status: pending-review` and source
-2. Fill in blind spots — "what can this method NOT audit?"
-3. Only mark `status: active` after user review and approval, then allow entry into preference pipelines
+1. 放入 `techs/`，标注 `status: pending-review` 和来源
+2. 填写盲区——"这个方法审不了什么"
+3. 用户审核确认后才标 `status: active`，允许进入偏好管线
 
 ## Red Flags
 
-| Excuse | Reality |
-|--------|---------|
-| "I'll keep it in my head" | If it's not written, it doesn't exist. Next session the agent knows nothing |
-| "Just log the event, don't extract principles" | `extracted_principles` is the only value of a log entry |
-| "Tech files and preferences are pretty similar, merge them" | Technique = reusable method (user-independent), Preference = user's orchestration choice. Different lifecycles |
-| "User-suggested techniques go straight into preferences" | Store technique independently in `techs/` first, pass verification gate before wiring into pipeline |
-| "This is too simple to extract a principle" | Simple principles have the highest reuse value |
-| "Wait until we have more to write together" | Write on every trigger. Accumulation is for the surfacing stage |
-| "Effectiveness records aren't important" | The run that failed is more valuable than the one that passed — reveals blind spots |
+| 借口 | 现实 |
+|------|------|
+| "我先记在脑子里" | 不写 = 不存在。下次 session agent 什么都不知道 |
+| "只记事件不提取原则" | `extracted_principles` 是日志唯一的价值 |
+| "技术文件和偏好差不多，合并了吧" | 技术 = 可复用方法（独立于用户），偏好 = 用户编排选择。生命周期不同 |
+| "用户提的技术直接进 preferences" | 技术先独立存 `techs/`，过验证门后再编入管线 |
+| "这个太简单不值得提取原则" | 简单原则复用价值最高 |
+| "等积累多了再一起写" | 每触必写，积累后是浮现阶段的事 |
+| "生效记录不重要" | 没过的那次比过的那次更值钱——暴露盲区 |
 
-## File Structure
+## 文件结构
 
 ```
 iteration-engine/
-  SKILL.md              ← state machine + transitions + core rules + quick routing
-  techs/                ← reusable iteration protocols
+  SKILL.md              ← 状态机 + transitions + 核心规则 + 快速路由
+  techs/                ← 可复用迭代方案
     index.md
     *.md
-  preferences/          ← user's technique pipeline orchestration
+  preferences/          ← 用户的技术管线编排
     index.md
     *.md
-  log/                  ← feedback events + extracted principles
+  log/                  ← 反馈事件 + 提取的原则
     *.md
-  archive/              ← superseded old preferences / deprecated techniques
-  references/           ← detailed templates and format specifications
+  archive/              ← 被覆盖的旧偏好/废弃技术
+  references/           ← 详细模板和格式说明
     log-template.md
     tech-template.md
     preference-template.md
