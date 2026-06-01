@@ -1,6 +1,6 @@
 # Worked Example:video-remix 三层测试体系
 
-> evaluating-skill-output 的第一个实例(本 skill 正是从它提炼)。
+> evaluating-in-chaos 的第一个实例(本 skill 正是从它提炼)。
 > 完整文件在 `video-remix/evals/`(`TEST_PLAN.md` / `state-tests.md` / `quality-rubric.md` / `evals.json`)。
 
 ## 归类

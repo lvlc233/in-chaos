@@ -1,6 +1,6 @@
 # Worked Example:git-sync 架构审视(短链路工具型)
 
-> reviewing-skills 第二个范例,与 video-remix(长链路)对照。
+> reviewing-in-chaos 第二个范例,与 video-remix(长链路)对照。
 > **这次审视本身催生了维度 8**(见 CHANGELOG v0.2)——一个 skill 的招牌功能命令语义错了,
 > 前 7 维(全审信息架构)一格都接不住。
 > 日期 2026-05-29。

@@ -1,6 +1,6 @@
 # Worked Example:video-remix(单体版)架构审视
 
-> 这是 reviewing-skills 的第一个范例:一份合格的 skill 架构审视长什么样。
+> 这是 reviewing-in-chaos 的第一个范例:一份合格的 skill 架构审视长什么样。
 > 审视对象 = 分支 `feat/video-remix` 的**单体版** video-remix
 > (kanban 扩展在另一分支,是后来为补救"缺陷 1"而生的)。
 > 日期:2026-05-29。标尺:superpowers / writing-skills + video-use。

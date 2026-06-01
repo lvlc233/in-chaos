@@ -1,4 +1,4 @@
-# reviewing-skills 迭代日志
+# reviewing-in-chaos 迭代日志
 
 > 这是一个**演进中**的 skill。每完成一次靠谱的真实 skill 审视,就回填新学到的维度 / 坏味道 /
 > worked example。迭代旁路、不阻塞主审视工作。

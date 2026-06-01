@@ -1,6 +1,6 @@
 # 方法论:三层测 skill 产出
 
-> evaluating-skill-output 的详细方法。SKILL.md 给骨架,这里给可执行细节:三层各自"测什么 / 怎么判 / 怎么记"。
+> evaluating-in-chaos 的详细方法。SKILL.md 给骨架,这里给可执行细节:三层各自"测什么 / 怎么判 / 怎么记"。
 
 ## 先归类被测 skill(决定要哪几层)
 

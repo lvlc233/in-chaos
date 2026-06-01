@@ -1,11 +1,11 @@
-# Iteration Engine
+# iteration-in-chaos
 
 把用户反馈转化为可复用的迭代技术体系。
 
 **核心产出：** `techs/` — 可复用的迭代方案（检查方法、设计模式、执行流程）。  
 **输入机制：** 从用户反馈中感知模式 → 记日志 → 浮现结晶为 techs/。  
 **编排层：** `preferences/` — 用户在多维度上选择的技术管线（什么维度用什么技术、什么顺序）。  
-**职责边界：** 提供和管理迭代方案。发现问题（审核）和验证质量（评测）由其他 skill 负责。协作方式：审核 skill 标记问题 → iteration-engine 匹配对应迭代方案去修。
+**职责边界：** 提供和管理迭代方案。发现问题（审核）和验证质量（评测）是本 skill 流程中的独立阶段，不做额外跨 skill 依赖。
 
 ## 状态机
 
@@ -60,7 +60,7 @@
 ## 文件结构
 
 ```
-iteration-engine/
+iteration-in-chaos/
   SKILL.md              ← 状态机 + transitions + 核心规则 + 快速路由
   techs/                ← 可复用迭代方案
     index.md

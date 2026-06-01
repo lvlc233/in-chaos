@@ -1,17 +1,17 @@
 ---
-name: evaluating-skill-output
-description: Use when testing or evaluating what a skill PRODUCES when it runs — 测一个 skill 跑起来对不对、做得好不好(行为正确性 + 状态流中间质量 + 内容/审美质量)。区别于 reviewing-skills(那个审 skill 文档写得合不合理,静态);本 skill 测 skill 跑出来的东西(动态)。Triggers 测试 skill、评估 skill 产出、skill 跑得对吗、中间状态质量、内容质量、审美评分、给 skill 建测试、eval skill output、test skill behavior。NOT 写新 skill(那是 writing-skills / skill-creator)。
+name: evaluating-in-chaos
+description: Use when testing or evaluating what a skill PRODUCES when it runs — 测一个 skill 跑起来对不对、做得好不好(行为正确性 + 状态流中间质量 + 内容/审美质量)。本 skill 测 skill 跑出来的东西(动态),不审文档(那是另一个层面的事)。Triggers 测试 skill、评估 skill 产出、skill 跑得对吗、中间状态质量、内容质量、审美评分、给 skill 建测试、eval skill output、test skill behavior。NOT 写新 skill(那是 writing-skills / skill-creator)。
 ---
 
-# evaluating-skill-output
+# evaluating-in-chaos
 
-> 🚧 STATUS: 演进中(v0.1,从 video-remix 三层测试体系提炼)。与 [[reviewing-skills]] 配对。
+> 🚧 STATUS: 演进中(v0.1,从 video-remix 三层测试体系提炼)。
 
 ## 核心原则
 
-测一个 skill 的**产出**(它跑起来做的事 + 做出来的东西),不是审它的文档(那是 [[reviewing-skills]])。
+测一个 skill 的**产出**(它跑起来做的事 + 做出来的东西),不审文档结构(那是静态审计层面的工作)。
 
-> **结构 vs 内容**:reviewing-skills 答"这 skill **写得**合不合理"(静态读文档);本 skill 答"它**跑得**对不对、做得好不好"(动态看产出)。
+> **文档审计 vs 产出测试**:审计答"这 skill **写得**合不合理"(静态);本 skill 答"它**跑得**对不对、做得好不好"(动态)。
 > 现成框架(skill-creator)能测功能层(L1),但**系统性测不了状态流中间质量(L2)和内容/审美质量(L3)**——那是本 skill 补的盲区。
 
 ## 三层:测什么
@@ -52,7 +52,7 @@ agent **没有可靠审美**。L3 分层:
 
 ## 自举一致性
 
-本 skill 自己就是一套标准 → **必须无双标**:它要求被测"记偏离 / 裁判分层",自己的方法论文档也得遵守。用 [[reviewing-skills]] 的"方法论 / 标准型 skill 自举一致性"专项复审本 skill。
+本 skill 自己就是一套标准 → **必须无双标**:它要求被测"记偏离 / 裁判分层",自己的方法论文档也得遵守。定期对照自身标准做自检。
 
 ## References
 
@@ -61,4 +61,4 @@ agent **没有可靠审美**。L3 分层:
 
 ## CHANGELOG
 
-- **v0.1**(2026-05-29):从 video-remix 反馈环测试体系提炼。与 reviewing-skills 配对成「静态审结构 + 动态测产出」。
+- **v0.1**(2026-05-29):从 video-remix 反馈环测试体系提炼。

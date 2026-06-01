@@ -1,9 +1,9 @@
 ---
-name: reviewing-skills
+name: reviewing-in-chaos
 description: Use when auditing or reviewing an EXISTING skill's architecture for defects — 复审 / 审视一个已有 skill 的结构缺陷、诊断它为何在上下文压缩或跨会话下跑偏、对照公认好用的 skill 找差距。Triggers 审视 skill、这个 skill 哪里不好、skill 缺陷、复审 skill、skill 架构、review a skill、audit a skill、skill architecture review。NOT for writing a brand-new skill (use writing-skills / skill-creator instead).
 ---
 
-# reviewing-skills
+# reviewing-in-chaos
 
 > 🚧 STATUS: 演进中 (DRAFT — 当前版本以 CHANGELOG.md 为准)
 > 本 rubric 仍在迭代。每完成一次真实 skill 审视,把新学到的维度 / 坏味道回填进
@@ -54,10 +54,6 @@ description: Use when auditing or reviewing an EXISTING skill's architecture for
   progressive disclosure、CSO(description 只写触发条件)。
 - **video-use** — 长流程范式:**永不信任记忆,一切落盘**(project.md / edl.json / takes_packed.md,启动先读)、
   `ask→confirm→execute→iterate→persist`、hard rules vs artistic freedom、self-eval 集中封顶(Cap at 3)。
-
-## 姊妹 skill
-
-- **`evaluating-skill-output`** — 本 skill 静态审"**写得**合不合理";审完结构、要**动态测产出**(行为正确性 / 状态流中间质量 / 内容审美质量)就转它。两者配对成「审 + 测」,缺一不全。
 
 ## References
 
