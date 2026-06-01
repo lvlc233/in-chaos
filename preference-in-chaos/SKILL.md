@@ -1,15 +1,19 @@
 ---
 name: preference-in-chaos
-description: Use when the user wants to record, view, or modify personal preferences — 记下偏好、看看偏好、我的习惯、我倾向于、偏好、preference. Triggers 记一下、我的偏好、我习惯、我倾向于、偏好是什么、改一下偏好、记录偏好.
+description: Use when the user triggers preference management: 记下偏好, 看看偏好, 我的偏好, 我的习惯, 我倾向于, 偏好是什么, 改一下偏好, 记录偏好, preference. NOT general note-taking (→ capture-knowledge) or concept derivation (→ derive-knowledge).
 ---
 
 # preference-in-chaos
 
 记录个人做任何事情的喜好。数据在 `resource-package/`（git submodule → 独立私有仓库）。
 
+> **resource-package 未初始化时**：先检查 `resource-package/` 是否存在。若不存在，告知用户需要 `git submodule update --init`；若用户未配置 submodule，手动创建 `resource-package/` 目录并初始化 `tech/`、`work/`、`life/`、`aesthetics/` 四个维度子目录。
+
 ## 路由
 
 用户输入 → agent 自动归类到一个维度目录，不确定归哪则问用户。
+
+> **与 capture-knowledge 区分**：用户说"记一下"时，判断内容是否属于 tech/work/life/aesthetics 维度内的个人偏好。属于 → 本 skill；通用笔记 / 不归属以上维度的记录 → capture-knowledge。有歧义时问用户"这是偏好还是笔记？"
 
 | 维度 | 目录 | 管什么 |
 |---|---|---|
