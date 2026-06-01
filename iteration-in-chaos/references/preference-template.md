@@ -5,7 +5,7 @@
 ```markdown
 # 维度名
 ## 管线
-1. [技术A] → 2. [技术B]
+1. [state-machine-check] → 2. [responsibility-boundary-check]
 ## 理由
 ## 适用上下文
 ## 证据
@@ -15,6 +15,15 @@
 ```
 
 偏好指回日志证据。管线中只允许 active 技术。
+
+### 运行时字段 `current_step`
+
+`current_step` 是 applying-tech 状态写入管线文件底部的纯文本行，用于跨 session 断点续跑。不写进管线模板（运行时不创建该行）。
+
+- **写入**: applying-tech 在执行第 N 项技术前，在管线文件底部追加 `current_step: N`
+- **读取**: new-task 状态读管线文件时，若底部存在该行且值不是 `done`，从第 N 项续跑
+- **清除**: 管线全部完成时，将 `current_step: N` 改为 `current_step: done`
+- **格式**: 必须是文件最后一行，格式为 `current_step: N`（N 为正整数）或 `current_step: done`
 
 ## 偏好索引 `preferences/index.md`
 

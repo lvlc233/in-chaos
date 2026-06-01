@@ -37,7 +37,7 @@
 
 - **C1-3**: 3 个内部级状态 (applying-tech / tech-failed / crystallizing) 未添加"缺少前置状态上下文时，先回到 new-task 重载"的 fallback 指令。当前仅标注了"入口级/内部级"分类，但内部级缺乏从错误入口点恢复的明确指引。
 - **C3-2**: Quick Routing 未加入 tech-rejected 相关入口路由；缺少"这个技术废掉了吗"或"有哪些被 reject 的技术"等用户常见查询的快速路由。
-- **M8-2**: preference-template 中的样例管线 `api-error-classification → structured-error-logging` 声称已删除但当前文件中仍存在；管线占位符 `[技术A] → [技术B]` 未替换为实际存在的管线示例。
+- **M8-2**: ~~preference-template 中占位符 `[技术A] → [技术B]` 未替换~~ ✅ 已修复 (2026-06-01 双线验收迭代)
 
 ## 变更文件清单
 

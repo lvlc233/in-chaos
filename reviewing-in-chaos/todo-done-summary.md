@@ -1,3 +1,5 @@
+> **DEPRECATED** — 最新状态以 `TODO.md` + `CHANGELOG.md` 为准。本文档保留作 v0.2-v0.6 修复的历史证据。
+
 # reviewing-in-chaos 修复总结
 
 ## 根因 A: 自举一致性

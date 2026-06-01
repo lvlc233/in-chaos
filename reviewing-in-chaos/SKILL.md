@@ -21,6 +21,8 @@ description: Use when auditing or reviewing an EXISTING skill's architecture for
 **用**:复审已有 skill;诊断 skill 为何在生产跑偏;对照标尺评估质量;为重构 skill 做准备。
 **不用**:写新 skill(→ `writing-skills` / `skill-creator`);改业务代码。
 
+> **本 skill 自身归类: 纯指导型。** 无脚本/命令，D8 对其为 N/A。8 步流程是方法论指引，中间产物依赖上下文窗口——因此 D3 落盘要求对自身不适用（坦诚声明，非双标逃避）。
+
 ## 审视流程
 
 1. **读全** — 目标 skill 的 SKILL.md + 所有 references,逐行读(不看大概)。先量体量(`wc -l`)。
@@ -32,7 +34,7 @@ description: Use when auditing or reviewing an EXISTING skill's architecture for
 7. **肯定优点** — 列它做对的地方,避免一边倒(诊断才可信)。
 8. **(旁路)回填** — 若学到 rubric 没有的新维度 / 坏味道,更新 rubric + CHANGELOG。不阻塞主流程。
 
-输出形态参考 `examples/video-remix.md`(根因 → 体量澄清 → 缺陷表 → 优点 → 根因升华 → 改进方向)。
+输出形态参考 `examples/video-remix.md`(根因 → 体量澄清 → 缺陷表 → 优点 → 根因升华 → 改进方向)。短链路工具型可省略"根因升华"独立段、保留"归类"段在前，两个范例的差异是 skill 类型不同导致的合法变体，非格式缺陷。
 
 ## 8 维 checklist
 
@@ -43,13 +45,13 @@ description: Use when auditing or reviewing an EXISTING skill's architecture for
 > **先给 skill 归类**,决定主战场:**长链路有状态型** → 维度 3 试金"第 K 步压缩了前面还在吗?";
 > **短链路工具型** → 维度 8 试金"招牌功能的核心命令语义真的对吗?"(短链路别硬给维度 3 扣 🔴)。
 
-## Iron Law（不可跳过）
+## Iron Law (Rigid — 不可跳过)
 
 1. **必须读完所有 references 再下判断。** 只读 SKILL.md 不读 rubric → 审不完整。
 2. **每个缺陷必须给出 `file:line` 证据。** 没证据的"感觉不好"不是有效反馈。
-3. **先归类再定严重度。** 长链路型打维度 8 的 🔴 或工具型打维度 3 的 🔴，一律降级。
+3. **先归类再定严重度。** 长链路型打维度 8 的 🔴 或工具型打维度 3 的 🔴，一律降级。**例外**: 若长链路型 skill 同时具备工具特征 (含脚本/命令)，D8 的 🔴 不降级——因为功能地基有洞优先于架构归类。
 
-## Red Flags（审阅者自欺信号）
+## Red Flags (Flexible — 审阅者自欺信号)
 
 | 你在想 | 现实 |
 |--------|------|
@@ -57,10 +59,12 @@ description: Use when auditing or reviewing an EXISTING skill's architecture for
 | "这个问题在维度 X 和维度 Y 都提过了，不重复了" | 同一问题在不同维度视角下不同。各维独立记录。 |
 | "这个问题太小，不配写进 review" | 小问题是大问题的症状。照记不误。 |
 | "这个 skill 我审过类似的，可以套上次结论" | 每个 skill 有独立上下文。复用判断，不复用结论。 |
+| "核心问题我理解了，不用逐维过了" | 代替系统性检查等于放弃方法论。各维独立记录是 Iron Law 的前置约束。 |
+| "这是 workflow 级的问题，rubric 管不了" | 用 scope 理由跳维，是"太小不配写"的变体但更隐蔽。先记录，再由严重度决定。 |
 
 ## 如何消费审阅报告
 
-审阅报告按严重度优先级消费：🔴架构级 → 立即修，阻塞合并；🟠结构级 → 本次迭代内修；🟡健壮性 → 下个迭代修；⚪轻微 → P3 backlog。**根因升华是报告的核心价值**——多数缺陷是同一病灶的并发症，看懂根因比逐一修缺陷更高效。
+审阅报告按严重度优先级消费：🔴架构级 → 立即修，阻塞合并；🟠结构级 → 本次迭代内修；🟡健壮性 → 下个迭代修；⚪轻微 → P3 backlog。**根因升华是报告的核心价值**——多数缺陷是同一病灶的并发症，看懂根因比逐一修缺陷更高效。审阅报告可作为 `iteration-in-chaos` 迭代引擎的输入源（反馈 → 暴露盲区 → 更新技术 → 闭环），生态内 skill 相互驱动。
 
 ## 标尺锚点(活参考)
 

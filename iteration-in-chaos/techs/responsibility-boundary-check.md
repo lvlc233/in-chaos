@@ -13,7 +13,7 @@ skill-design, module-design
 ## 效果对比
 | before | after | 是否改善 | 证据 |
 |--------|-------|----------|------|
-| skill 间职责重叠，同一件事多个 skill 都在做 | 职责清晰，每个 skill 明确"我不做什么" | 待测 | - |
+| skill 间职责重叠，同一件事多个 skill 都在做 | 职责清晰，每个 skill 明确"我不做什么" | 是 | iteration-in-chaos 4 个 skill 职责无重叠（iteration<->reviewing<->evaluating 三方分界），2026-05-29 第一轮生效记录通过，2026-06-01 第三轮生效记录通过 |
 ## 验收标准
 - 每个模块能清晰回答"我不做什么"
 - 模块间职责无重叠
@@ -31,7 +31,8 @@ skill-design, module-design
 ## 来源
 user, log/2026-05-29-identity-is-iteration-schemes.md §2
 ## 生效记录
-| 日期 | 项目 | 通过? | 备注 |
+| 日期 | 项目 | 通过? | 失败根因 | 备注 |
 |------|------|------|------|
 | 2026-05-29 | iteration-engine | 通过 | 重写 SKILL.md 时明确职责边界声明 |
 | 2026-06-01 | iteration-in-chaos | 通过 | 第三轮：消歧义——"审核/评测在本 skill 流程中"改为"识别问题→匹配技术修→验证效果，三步闭环均由 tech 定义"。去掉跨 skill 依赖暗示 |
+| 2026-06-01 | evaluating-in-chaos | 通过 | "我不做什么"边界清晰（不审文档/不写skill/不测创造性质/不能代替人类验收）。与 reviewing-in-chaos 无重叠。轻微缺口：与 iteration-in-chaos 的协作协议（测试偏离 → 迭代修复）未声明，不阻塞。 |

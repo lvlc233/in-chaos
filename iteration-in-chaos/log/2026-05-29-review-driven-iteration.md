@@ -21,4 +21,4 @@
   证据: reviewer 指出"一个宣扬验证门的 skill 却跳过自己的验证门是架构上的不诚实"——draft techs 在 pipeline 里跑了 2 轮但从未被 promote
   原则: 一个 meta-skill（规定别人该怎么做的 skill）如果自己违规，比普通 skill 违规严重 10 倍——因为它在示范"规则可以被打破"。meta-skill 的合规性是 existence-proof：如果自己都做不到，凭什么要求别人做到
 ## tags: code-review, superpowers, transition-graph, blind-spot, architecture-honesty, meta-compliance
-## crystallized_to: pending
+## crystallized_to: techs/blind-spot-driven-design.md

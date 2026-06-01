@@ -3,6 +3,18 @@
 > 这是一个**演进中**的 skill。每完成一次靠谱的真实 skill 审视,就回填新学到的维度 / 坏味道 /
 > worked example。迭代旁路、不阻塞主审视工作。
 
+## v0.7 — 2026-06-01(第六次:双 agent 验收驱动迭代)
+
+来源: iteration-in-chaos + evaluating-in-chaos 并行验收 reviewing-in-chaos 自身。evaluating 发现自举双标 (要求被审对象落盘、自己中间产物 in-memory) + Iron Law 边缘歧义 + Red Flags 未饱和 + 范例结构漂移；iteration dogfooding 确认管线无 🔴 问题、发现 TODO 未收敛。据此修复:
+
+- **自归类声明**: `SKILL.md:24` 审视流程段前加 "本 skill 自身归类: 纯指导型" + D3/D8 适用性坦诚声明
+- **Red Flags 扩充**: `SKILL.md:54-63` 新增 2 条隐蔽自欺模式 ("核心问题理解了不用逐维过"、"workflow 级 rubric 管不了")
+- **Iron Law #3 边缘修正**: `SKILL.md:52` 加例外子句——长链路+有脚本时 D8 🔴 不降级
+- **范例漂移说明**: `SKILL.md:37` 输出模板加注——短链路可省略升华段、保留归类段，两种格式均为合法变体
+- **生态引用**: `SKILL.md:67` 下游消费段 cross-ref iteration-in-chaos (审阅报告 → 迭代输入)
+- **TODO 收敛**: `TODO.md` 全部已修复项标 ✅ + 补 file:line 证据 + 新增 5 条验收发现
+- 关联: iteration-in-chaos side—pending log 结晶为 `techs/blind-spot-driven-design.md` + 新增 `log/2026-06-01-dual-eval-reviewing.md`
+
 ## v0.6 — 2026-05-29(第五次:dogfood video-remix ref→blueprint 颠覆重构后回填)
 
 来源:实施并自审 video-remix 的「ref=混剪范本 / 内容解耦」颠覆重构(改 7 文件:SKILL + 4 references + 3 evals)。dogfood 抓到 1 真缺陷(Step 3 早引用 `§FC 可复刻清单`,该锚点不存在 + 能力表埋在 Step 7)。把"换名词式重构"的遗留扫描沉淀为可机检技术:

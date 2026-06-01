@@ -1,6 +1,7 @@
 # Worked Example:video-remix 三层测试体系
 
 > evaluating-in-chaos 的第一个实例(本 skill 正是从它提炼)。
+> 基于 video-remix v0.x 的 evals/ 体系；母体变更需同步本示例。
 > 完整文件在 `video-remix/evals/`(`TEST_PLAN.md` / `state-tests.md` / `quality-rubric.md` / `evals.json`)。
 
 ## 归类
@@ -38,7 +39,7 @@ golden-path / tune / schema-invalid(旧)+ 5 反馈环新用例(诊断回退 / FC
  "actual":"行为意图有(看 ref→关键词 query),但 Step 3 没给具体看视频工具",
  "deviation":{"sign":"负向","where":"被测 SKILL.md Step 3","input":"ref_video_url",
    "output":"计划里'用环境里能看视频的方式',无工具名",
-   "why":"归因=skill 没写清(runtime 无本地 ffmpeg,却没指明 vision-model-client / FC slice)"}}
+   "why":"归因: skill 没写清(runtime 无本地 ffmpeg,却没指明 vision-model-client / FC slice)"}}
 ```
 > 这就是「记偏离」的样子:不是 pass/fail,而是 expected vs actual + 可定位(where/input/output)+ 归因。
 
