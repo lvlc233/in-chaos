@@ -1,64 +1,64 @@
 ---
 name: evaluating-skill-output
-description: Use when testing or evaluating what a skill PRODUCES when it runs — 测一个 skill 跑起来对不对、做得好不好(行为正确性 + 状态流中间质量 + 内容/审美质量)。区别于 reviewing-skills(那个审 skill 文档写得合不合理,静态);本 skill 测 skill 跑出来的东西(动态)。Triggers 测试 skill、评估 skill 产出、skill 跑得对吗、中间状态质量、内容质量、审美评分、给 skill 建测试、eval skill output、test skill behavior。NOT 写新 skill(那是 writing-skills / skill-creator)。
+description: Use when testing or evaluating what a skill PRODUCES when it runs — test whether a skill runs correctly and produces quality output (behavioral correctness + intermediate state quality + content/aesthetic quality). Distinct from reviewing-skills (which audits whether a skill's documentation is well-structured, static); this skill tests what the skill actually outputs (dynamic). Triggers: test a skill, evaluate skill output, does this skill run correctly, intermediate state quality, content quality, aesthetic scoring, build tests for a skill, eval skill output, test skill behavior. NOT for writing a new skill (that's writing-skills / skill-creator).
 ---
 
 # evaluating-skill-output
 
-> 🚧 STATUS: 演进中(v0.1,从 video-remix 三层测试体系提炼)。与 [[reviewing-skills]] 配对。
+> STATUS: evolving (v0.1, extracted from video-remix three-layer testing system). Pairs with [[reviewing-skills]].
 
-## 核心原则
+## Core Principle
 
-测一个 skill 的**产出**(它跑起来做的事 + 做出来的东西),不是审它的文档(那是 [[reviewing-skills]])。
+Test a skill's **output** (what it does when running + what it produces), not audit its documentation (that's [[reviewing-skills]]).
 
-> **结构 vs 内容**:reviewing-skills 答"这 skill **写得**合不合理"(静态读文档);本 skill 答"它**跑得**对不对、做得好不好"(动态看产出)。
-> 现成框架(skill-creator)能测功能层(L1),但**系统性测不了状态流中间质量(L2)和内容/审美质量(L3)**——那是本 skill 补的盲区。
+> **Structure vs Content**: reviewing-skills answers "is this skill **well-written**" (static document audit); this skill answers "does it **run correctly and produce quality output**" (dynamic output testing).
+> Existing frameworks (skill-creator) can test the functional layer (L1), but **cannot systematically test intermediate state quality (L2) and content/aesthetic quality (L3)** — that is the blind spot this skill fills.
 
-## 三层:测什么
+## Three Layers: What to Test
 
-| 层 | 测什么 | 裁判 |
-|---|---|---|
-| **L1 功能 / flow** | 行动计划对吗、字段/分支/契约对吗、早 fail 吗 | grader assertion(复用 skill-creator,**支持多跑取方差**) |
-| **L2 状态流中间质量** | 每个状态的**中间产物**对吗(若 skill 是状态流) | grader 对照状态契约 assert 中间产物 + 记偏离;**mock 单状态测** |
-| **L3 内容 / 审美质量** | 产出好不好、像不像目标参照 | L3a 对照参照物客观判;L3b 主观审美用 rubric + 投票 + 人类校准 |
+| Layer | What to Test | Judge |
+|-------|-------------|-------|
+| **L1 Functional / Flow** | Is the action plan correct? Are fields/branches/contracts correct? Does it fail early? | grader assertion (reuse skill-creator, **support multiple runs for variance**) |
+| **L2 Intermediate State Quality** | Are each state's **intermediate artifacts** correct (if the skill is a state machine)? | grader checks state contract assertions on intermediate artifacts + records deviations; **mock single states for testing** |
+| **L3 Content / Aesthetic Quality** | Is the output good? Does it resemble the target reference? | L3a: objective comparison against reference; L3b: subjective aesthetic via rubric + voting + human calibration |
 
-> **先归类,不是每个 skill 都要三层**:纯无状态工具型可能只要 L1;长状态流 skill 要 L2;有内容/创意产出(视频/文案/设计)的才要 L3。
-> 裁判列只标各层最特征的判法;**「记偏离 + 归因」是三层通用**(总则 #2),别只在 L2 记。
+> **Classify first — not every skill needs all three layers**: pure stateless tool-type may only need L1; long state-machine skills need L2; skills with content/creative output (video/copy/design) need L3.
+> The Judge column lists only each layer's most characteristic method; **"record deviations + attribute root cause" applies across all three layers** (general rule #2), not just L2.
 
-## 怎么用
+## How to Use
 
-1. **归类被测 skill**:有状态流吗?有内容/创意产出吗?→ 定要哪几层。
-2. **每层先定标准**(先有标准后测):L1 = expected assertion;L2 = 状态契约;L3 = rubric 锚点。
-3. **跑 + 记偏离**:按方法论总则(详见 `references/methodology.md`)。
-4. **多次跑抗随机**(复用 skill-creator variance:mean/stddev)。
+1. **Classify the skill under test**: Does it have a state machine? Does it have content/creative output? → Determine which layers are needed.
+2. **Define standards per layer first** (standards before testing): L1 = expected assertions; L2 = state contracts; L3 = rubric anchors.
+3. **Run + record deviations**: Follow methodology general rules (see `references/methodology.md`).
+4. **Run multiple times to counter randomness** (reuse skill-creator variance: mean/stddev).
 
-## 方法论总则(单一源头 = `references/methodology.md`)
+## Methodology General Rules (single source of truth = `references/methodology.md`)
 
-六条横切三层。**完整定义在 `references/methodology.md`(权威源);本处只列标题供扫读,要改总则只改那里——避免双副本漂移(本 skill 维度 6 自己警告过的病)**:
+Six rules cutting across all three layers. **Full definitions in `references/methodology.md` (authoritative source); listed here as headlines for scanning only. To change general rules, only change there — prevent dual-copy drift (this skill's own Dimension 6 warning)**:
 
-1. 先有标准后测;
-2. **记偏离 + 归因 —— 三层(L1/L2/L3)都记,不只 L2**;
-3. 多次跑抗随机;
-4. 最小上下文;
-5. 客观 / 严厉 / 怀疑驱动;
-6. 裁判分层别混用 —— **L1(被测若已细分则 flow/e2e)/ L2 / L3a / L3b 各管各**,同一观测量别两层重复打分。
+1. Standards first, testing second;
+2. **Record deviations + attribute root cause — across all three layers (L1/L2/L3), not just L2**;
+3. Run multiple times against randomness;
+4. Minimal context;
+5. Objective / strict / skepticism-driven;
+6. Judge layering, don't mix — **L1 (subdivided if skill under test is already segmented then flow/e2e) / L2 / L3a / L3b each handle their own scope**, don't score the same observation across two layers.
 
-## L3 审美的诚实底线
+## L3 Aesthetic Honesty Baseline
 
-agent **没有可靠审美**。L3 分层:
-- **L3a 客观对标**(像不像参照物)→ agent 能带证据判。
-- **L3b 纯主观审美**(好不好看)→ 艺考式 rubric(维度 + 1-5 评分锚点)+ 多 agent 投票取方差 + 人类校准点;**方差大 / 偏离校准的维度标「需人类裁决」**。
-- **禁止 agent 用"我觉得不错"这类无锚点判断当结论。**
+The agent **has no reliable aesthetic judgment**. L3 breakdown:
+- **L3a Objective comparison** (does it resemble the reference?) → agent can judge with evidence.
+- **L3b Pure subjective aesthetic** (does it look good?) → art-exam-style rubric (dimensions + 1-5 scoring anchors) + multi-agent voting with variance + human calibration points; **dimensions with high variance / deviating from calibration → flag "requires human judgment"**.
+- **Agent MUST NOT use anchorless judgments like "I think it looks good" as conclusions.**
 
-## 自举一致性
+## Self-Consistency
 
-本 skill 自己就是一套标准 → **必须无双标**:它要求被测"记偏离 / 裁判分层",自己的方法论文档也得遵守。用 [[reviewing-skills]] 的"方法论 / 标准型 skill 自举一致性"专项复审本 skill。
+This skill is itself a standard → **must not double-standard**: it requires the tested skill to "record deviations / layer judges", so its own methodology doc must comply too. Use [[reviewing-skills]]'s "methodology/standard-type skill self-consistency" specialized re-audit for this skill.
 
 ## References
 
-- `references/methodology.md` — 三层详细(L2 mock 单状态测法 / L3 诚实分层 rubric 模板)+ 总则
-- `examples/video-remix.md` — 第一个 worked example(video-remix 三层测试体系)
+- `references/methodology.md` — Three-layer details (L2 mock single-state testing method / L3 honest-layering rubric template) + general rules
+- `examples/video-remix.md` — First worked example (video-remix three-layer testing system)
 
 ## CHANGELOG
 
-- **v0.1**(2026-05-29):从 video-remix 反馈环测试体系提炼。与 reviewing-skills 配对成「静态审结构 + 动态测产出」。
+- **v0.1** (2026-05-29): Extracted from video-remix feedback-loop testing system. Paired with reviewing-skills to form "static structure audit + dynamic output testing".
