@@ -1,0 +1,3 @@
+[submodule "preference-in-chaos/resource-package"]
+	path = preference-in-chaos/resource-package
+	url = git@github.com:lvlc233/resource-package.git
