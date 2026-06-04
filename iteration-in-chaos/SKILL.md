@@ -1,17 +1,17 @@
 ---
 name: iteration-in-chaos
-description: Use when the user wants to iterate or improve a skill/system based on accumulated feedback, when code review or skill audit reports need to be turned into reusable techniques, or when the user says 迭代 / 整理反馈 / 记下来. NOT for initial skill creation (writing-skills) or one-off fixes with no reuse value.
+description: Use when the user wants to iterate or improve a skill/system{超环：skill和system未做区分，不具备唯一性} based on accumulated feedback{积累未定义；反馈迭代未定义}, when code review or skill audit reports need to be turned into reusable techniques{整句缺环：代码审查对象缺，技能审计报告缺，可复用含义缺，技术表现缺，背景缺失}, or when the user says 迭代 / 整理反馈 / 记下来{三个触发词是包含关系而非正交，存在重合；"记下来"靠向capture-knowledge域}. NOT for initial skill creation (writing-skills) or one-off fixes with no reuse value{无复用价值无锚定；修复无表征——修复什么？文档修复算吗？}.
 ---
 
 # iteration-in-chaos
 
-把用户反馈转化为可复用的迭代技术体系。
+把用户反馈{全文高频词未定义：什么算反馈？}转化为可复用的迭代技术体系。
 
-**核心产出：** `techs/` — 可复用的迭代方案（检查方法、设计模式、执行流程）。  
-**输入机制：** 从用户反馈中感知模式 → 记日志 → 浮现结晶为 techs/。外部审核报告（如 `reviewing-in-chaos` 审阅、code review）同样是有效输入源——审核暴露盲区 → 更新技术 → 闭环。  
-**编排层：** `preferences/` — 用户在多维度上选择的技术管线（什么维度用什么技术、什么顺序）。  
-**职责边界：** 提供和管理迭代方案。识别问题 → 匹配技术去修 → 验证修复效果，三步闭环。每一步的具体方法由对应的 tech 定义。  
-❌ 不做：审核 skill 架构（→ reviewing-in-chaos）、评测 skill 产出（→ evaluating-in-chaos）、在迭代对象外引入新职责。
+**核心产出：{冗余标签，"核心"无必要；若存在核心则非核心内容未标注}** `techs/` — 可复用的迭代方案（检查方法{查什么？输入输出？}、设计模式{借软工域词未重新锚定}、执行流程{跟管线什么关系？}）。{概念缺环：三个分类词均未锚定，默认参与者理解}
+**输入机制：{职责错误，位置错误——给人类看的介绍而非agent可执行指令；跟状态机重复}** 从用户反馈中感知模式 → 记日志{日记概念未锚定：什么位置？} → 浮现结晶{私域概念未在背景中定义}为 techs/。外部审核报告（如 `reviewing-in-chaos` 审阅、code review）同样是有效输入源{无过滤门——什么算审核报告？缺少负例；跨域：reviewing的产物应由reviewing自身闭环定义}——审核暴露盲区 → 更新技术 → 闭环{谁闭环？审核者得不到反馈，环间桥接缺失}。  
+**编排层：{无意义描述，同"核心产出"问题——自赋分层标签，对agent无执行意义}** `preferences/` — 用户在多维度{未定义}上选择的技术管线（什么维度用什么技术、什么顺序）。{括号内自指涉——"管线就是管线"，未增加锚定信息；"preferences"与preference-in-chaos撞词，域边界模糊}
+**职责边界：{跟"输入机制"同问题——三步闭环在状态机已表达，此处叙述仅对人类有用}** 提供和管理迭代方案。识别问题 → 匹配技术去修 → 验证修复效果，三步闭环。每一步的具体方法由对应的 tech 定义。  
+❌{emoji对agent无语义，人类排版惯性，降信噪比} 不做：审核 skill 架构（→ reviewing-in-chaos）{跨域：替reviewing定义其职责}、评测 skill 产出（→ evaluating-in-chaos）、在迭代对象{前文用skill/system，此处换词，同一所指三个能指未声明等价}外引入新职责{无基准线，"新"无从判断}。
 
 ## 状态机
 
