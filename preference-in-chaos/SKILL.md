@@ -27,7 +27,11 @@ description: Use when the user triggers preference management: 记下偏好, 看
 ## 记偏好（写入）
 
 1. agent 识别维度，确定 `resource-package/{维度}/` 目录
-2. 建文件 `resource-package/{维度}/{slug}.md`，内容模板：
+2. **相似性检测**：扫描所有维度下已有偏好文件的内容，对比用户新输入，若发现高度相似（同主题/同场景/同结论），列出匹配项并问用户：
+   - "此偏好与已有 [xxx](./xxx.md) 相似，要更新旧的还是新建？"
+   - 用户选"更新"→ 编辑已有文件 + 更新 index.md 摘要行
+   - 用户选"新建"或差异足够大 → 继续步骤 3
+3. 建文件 `resource-package/{维度}/{slug}.md`，内容模板：
 
 ```markdown
 # {slug}
@@ -38,11 +42,11 @@ description: Use when the user triggers preference management: 记下偏好, 看
 - **记录时间**: {timestamp}
 ```
 
-3. 追加一行到 `resource-package/{维度}/index.md`：
+4. 追加一行到 `resource-package/{维度}/index.md`：
    ```markdown
    - [{slug}](./{slug}.md) — {一句话概括}
    ```
-4. 告知用户「已记到 {维度}/ 下」
+5. 告知用户「已记到 {维度}/ 下」
 
 ## 查偏好（读取）
 
